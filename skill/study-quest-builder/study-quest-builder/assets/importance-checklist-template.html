@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>课程重要性评分</title>
+<style>
+:root{--accent:#156a66;--paper:#f5f3eb;--ink:#233332}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,sans-serif}main{max-width:960px;margin:auto;padding:clamp(16px,4vw,48px)}header{border-top:5px solid var(--accent);padding-top:20px}h1{font-size:clamp(26px,5vw,44px);line-height:1.2}h2{font-size:21px}.eyebrow{letter-spacing:.14em;font-size:12px;color:var(--accent)}.stats{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.stats span,.module{background:#fff;border:1px solid #cbd6d1;border-radius:12px;padding:14px 18px}.module{margin:16px 0;overflow-wrap:anywhere}select,button{font:inherit;min-height:44px;border:1px solid var(--accent);border-radius:7px;padding:8px 14px;background:white;color:var(--ink);max-width:100%}button{cursor:pointer}button.primary{background:var(--accent);color:white}button:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:3px solid #bf671d;outline-offset:3px}label{display:flex;align-items:center;gap:14px;flex-wrap:wrap}progress{width:100%;accent-color:var(--accent)}#status{min-height:1.6em;color:#9a401f}footer{border-top:1px solid #cbd6d1;margin-top:32px;padding-top:20px}p,li{overflow-wrap:anywhere}
+</style></head>
+<body><main><header><p class="eyebrow">STUDY RECORD / 重要性评分</p><h1 id="course-title"></h1><p>按复习需要为每个综合模块评 1～5 分。1 表示较低优先，5 表示最高优先。</p></header>
+<section aria-label="评分统计"><div class="stats"><span id="progress-text"></span><span id="high-count"></span><span id="medium-count"></span><span id="low-count"></span></div><progress id="progress" value="0" max="1" aria-label="评分完成进度"></progress></section>
+<div id="modules"></div><p id="status" role="status" aria-live="polite"></p><button class="primary" id="export">导出评分 JSON</button>
+<footer>完成评分后，导出 JSON 并交回。确认评分结果后还会先确认题型、重点知识点、特殊题目形式和关卡要求；得到明确许可后才生成闯关答题网页。记录保存在当前浏览器；更换浏览器或文件位置可能无法读取，建议保留导出文件。</footer></main>
+<script id="study-config" type="application/json">
+{"schemaVersion":1,"courseId":"demo-study-method","courseTitle":"学习方法示例 · 请替换课程数据","noteRevision":"demo-r1","theme":{"accent":"#156a66","paper":"#f5f3eb"},"modules":[{"id":"module-observe","name":"观察与记录","knowledgePoints":["示例约定：先观察，再记录","记录保留来源"]},{"id":"module-review","name":"核对与复习","knowledgePoints":["示例约定：对照记录核对","错题可标记为已掌握"]}]}
+</script>
+<script>
+(() => {
+  'use strict';
+  const config = JSON.parse(document.getElementById('study-config').textContent);
+  const key = `study-importance:v1:${config.courseId}:${config.noteRevision}`;
+  let ratings = {};
+  const byId = id => document.getElementById(id);
+  function message(text) { byId('status').textContent = text; }
+  function valid(data) {
+    return data && typeof data === 'object' && !Array.isArray(data) && Object.keys(data).every(id => config.modules.some(m => m.id === id) && Number.isInteger(data[id]) && data[id] >= 1 && data[id] <= 5);
+  }
+  try { const raw = localStorage.getItem(key); if(raw) { const data = JSON.parse(raw); if(!valid(data)) throw Error('格式不符'); ratings = data; } }
+  catch { message('无法读取本地评分。请重新评分并导出备份；原记录未被清除。'); }
+  function update() {
+    const values = Object.values(ratings);
+    byId('progress-text').textContent = `已评分 ${values.length} / ${config.modules.length}`;
+    byId('high-count').textContent = `高 ${values.filter(v => v >= 4).length}`;
+    byId('medium-count').textContent = `中 ${values.filter(v => v === 3).length}`;
+    byId('low-count').textContent = `低 ${values.filter(v => v <= 2).length}`;
+    byId('progress').max = config.modules.length; byId('progress').value = values.length;
+    byId('export').disabled = values.length !== config.modules.length;
+  }
+  function exportData() {
+    if(Object.keys(ratings).length !== config.modules.length) throw Error('请完成全部模块评分');
+    return {schemaVersion:1,kind:'study-importance',courseId:config.courseId,courseTitle:config.courseTitle,noteRevision:config.noteRevision,exportedAt:new Date().toISOString(),modules:config.modules.map(m => ({...m,rating:ratings[m.id]}))};
+  }
+  function download() {
+    const blob = new Blob([JSON.stringify(exportData(),null,2)],{type:'application/json'});
+    const url = URL.createObjectURL(blob), link = document.createElement('a');
+    link.href=url;link.download=`${config.courseId}-importance.json`;link.click();setTimeout(() => URL.revokeObjectURL(url),1000);
+    message('已导出。请交回 JSON 并确认评分结果。');
+  }
+  document.title = `${config.courseTitle} · 重要性评分`; byId('course-title').textContent=config.courseTitle;
+  for(const [name,value] of Object.entries(config.theme || {})) if(['accent','paper'].includes(name) && /^#[0-9a-f]{6}$/i.test(value)) document.documentElement.style.setProperty(`--${name}`,value);
+  config.modules.forEach((module,index) => {
+    const section=document.createElement('section');section.className='module';
+    const heading=document.createElement('h2');heading.textContent=`${String(index+1).padStart(2,'0')} / ${module.name}`;section.append(heading);
+    const list=document.createElement('ul');module.knowledgePoints.forEach(point => {const li=document.createElement('li');li.textContent=point;list.append(li);});section.append(list);
+    const label=document.createElement('label');label.textContent='复习重要性';
+    const select=document.createElement('select');select.dataset.moduleId=module.id;
+    for(let value=0;value<=5;value++){const option=document.createElement('option');option.value=value ? String(value) : '';option.textContent=value ? `${value} 分` : '请选择';select.append(option);}
+    select.value=ratings[module.id] || '';select.addEventListener('change',() => {if(select.value) ratings[module.id]=Number(select.value);else delete ratings[module.id];update();try{localStorage.setItem(key,JSON.stringify(ratings));message('评分已自动保存。');}catch{message('浏览器无法保存评分，请完成后立即导出备份。');}});
+    label.append(select);section.append(label);byId('modules').append(section);
+  });
+  byId('export').addEventListener('click',download);update();
+  window.importanceApp={config,exportData,getRatings:()=>({...ratings})};
+})();
+</script></body></html>

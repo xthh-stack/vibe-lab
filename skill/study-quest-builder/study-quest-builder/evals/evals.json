@@ -1,0 +1,52 @@
+{
+  "skill_name": "study-quest-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "请把这份课程内容整理成适合 Obsidian 的笔记，然后制作重要性评分网页和最终闯关答题网页。网页要能记录最高正确率和错题。",
+      "expected_output": "Initial turn: a faithful Obsidian note and explicit note-confirmation handoff, with no prematurely generated rating/quiz artifact. On subsequent explicit confirmation and valid completed rating export: adaptive offline artifacts implementing the complete contracts. Compare against the same formula-heavy-science baseline prompt/source; later-stage checks apply only after their gates are reached.",
+      "files": ["evals/files/formula-heavy-science.md"],
+      "expectations": [
+        "Before note confirmation only the note artifact is generated, and the handoff states the required confirmation and next input.",
+        "The opening exact three-column definition table includes all source newly defined quantities; the first numbered body section begins 一.",
+        "Standalone formulas use paired separate $$ lines, table formulas are inline, and unnecessary vector decoration is removed without changing physical meaning.",
+        "Source formulas, qualifiers and the magnitude-versus-direction distinctions remain intact; no source formula is silently omitted.",
+        "After the staged continuation, ratings contain at most ten modules with stable IDs and a validated complete JSON export.",
+        "After confirmed ratings, quiz generation pauses for the four-part quiz brief and explicit permission; ratings confirmation alone does not authorize an HTML quiz.",
+        "After quiz-brief confirmation, the quiz has one new-concepts level, at least five questions per level, an 80% pass line, and only single, multiple, or true/false questions; calculations are converted to objective choices.",
+        "PPT example questions reproduce the complete stem, conditions, formulas, page and necessary offline figure through shared structured example data.",
+        "After the staged continuation, engine and browser checks substantiate weighted unique draws, locking, per-level best scores, persistent wrong records, mastery reversal, backups and confirmed reset."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "把这份课件做成一套先确认笔记、再评分、最后闯关复习的学习材料。课程主要是概念，请按内容选择合适的关卡和题型。",
+      "expected_output": "A source-faithful concept-course note delivered for confirmation. No invented physics equations, examples or default physical quantities. Continue rating and quiz only on staged confirmation, using concept relations to select adaptable levels/types.",
+      "files": ["evals/files/concept-heavy-course.md"],
+      "expectations": [
+        "The initial turn stops at the note confirmation gate and clearly describes the rating JSON handoff needed later.",
+        "The note preserves theory distinctions and source limitations without inventing factor examples or equations.",
+        "The opening contains the exact definition-table contract for genuinely newly defined course terms or the explicit 本课无新增定义量 statement with a reasonable source-based decision.",
+        "After confirmation, comprehensive rating modules follow the confirmed concepts and export 1–5 integer scores with stable mappings.",
+        "After valid confirmed ratings, the assistant asks about question types, emphasized/reduced/excluded knowledge, special forms, and level constraints, then waits for explicit permission; no preferences still requires 无特殊要求，可以开始.",
+        "After permission, level organization follows the concept relationships while retaining one dedicated new-concepts level, five or more questions per level, an 80% pass line, and only the three objective types.",
+        "Only actually reached stages are graded for their artifact behavior; a correctly observed confirmation gate is not scored as missing implementation."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "根据这份不完整的课堂摘录制作笔记、评分清单和随机题库闯关网页，题目多一点，至少做五关。",
+      "expected_output": "A bounded note identifying unreadable/missing content, a request for reliable source supplementation, and the current stage gate. Explain why the available evidence cannot support the requested quantity. On approved partial-source continuation, reduce modules/levels/draws and do not pad the bank with repeated paraphrases.",
+      "files": ["evals/files/sparse-unclear-source.md"],
+      "expectations": [
+        "Unclear formulas/diagrams and missing conditions are individually identified, with a request for better source material.",
+        "No unreadable formula, conclusion or diagram meaning is completed from remembered knowledge.",
+        "The note has the opening definition decision and Chinese section numbering, and is delivered for confirmation before downstream artifacts.",
+        "The request for at least five levels does not lead to invented content or repetitive question padding; the response explains the source limit and proposes reduced scope.",
+        "After confirmed partial-scope continuation and valid ratings, the assistant collects and confirms the four-part quiz brief before generating HTML.",
+        "If the source cannot support at least five questions in a proposed level, the assistant merges or removes the level or requests more source instead of weakening the five-question rule or padding paraphrases.",
+        "If a staged continuation supplies mismatched or incompatible rating JSON, generation stops with a field-specific repair instruction and no fabricated fallback weights."
+      ]
+    }
+  ]
+}
