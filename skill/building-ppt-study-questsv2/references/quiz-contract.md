@@ -2,13 +2,13 @@
 
 ## Design from evidence
 
-Use the confirmed note plus validated confirmed importance export. Base the number and organization of levels on course length, concept density, dependencies and ratings. State why the chosen levels/draws fit. Bank size should normally be at least twice the draw count; when evidence cannot support this, reduce counts/levels and state the remaining limitation. Near-duplicate paraphrases do not count as new evidence coverage.
+Use the note revision authorized by the selected branch in SKILL.md. In the importance branch, also require the validated confirmed importance export. If the user skips importance annotation, build 1–10 comprehensive modules with stable IDs, names and knowledgePoints from the note and set all internal ratings to 3; no rating export or separate quiz brief is required. Clearly identify equal weights as technical defaults rather than user importance judgments. Base the number and organization of levels on course length, concept density, dependencies and ratings. State why the chosen levels/draws fit. Bank size should normally be at least twice the draw count; when evidence cannot support this, reduce counts/levels and state the remaining limitation. Near-duplicate paraphrases do not count as new evidence coverage.
 
 Every question needs a stable ID, level ID, module ID, knowledge points, source location, prompt, deterministic answer and explanation. Never imply the distributed demonstration bank is course evidence. Convert calculations and formula writing into selecting a result/formula or judging a supplied derivation.
 
 ## Template configuration
 
-Replace `study-config` JSON, escaping `<` as `\u003c`. Keep source text plain and render it with safe DOM APIs such as `textContent`, `createElement` and `setAttribute`; never inject course text with `innerHTML`. Config contains `schemaVersion:1`, `courseId`, `courseTitle`, `noteRevision`, `bankRevision`, optional `theme`, `modules` (the exact confirmed export modules with integer ratings), optional shared `examples`, `levels` and `questions`.
+Replace `study-config` JSON, escaping `<` as `\u003c`. Keep source text plain and render it with safe DOM APIs such as `textContent`, `createElement` and `setAttribute`; never inject course text with `innerHTML`. Config contains `schemaVersion:1`, `courseId`, `courseTitle`, `noteRevision`, `bankRevision`, optional `theme`, `modules` (the exact confirmed export modules with integer ratings in the importance branch; source-derived modules with uniform `rating:3` in the skip branch), optional shared `examples`, `levels` and `questions`.
 
 Each level: `{id,name,description,kind,prerequisites:[],drawCount,passRatio:0.8}`. Prerequisites name existing levels and form a directed acyclic graph. Require `drawCount >= 5`, enough questions to satisfy it, and `passRatio:0.8`; do not use `passCount` to weaken or bypass the ratio. A round passes only when `correct / actualDrawCount >= 0.8`. Only passed levels enter `completed`, so a score below 80% never unlocks dependents.
 

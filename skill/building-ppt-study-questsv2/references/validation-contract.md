@@ -11,9 +11,20 @@ node scripts/test-config-regression.cjs
 node scripts/test-quiz-policy.cjs
 ```
 
+For the skip-importance branch, validate the note and quiz without requiring an importance page or ratings export. Check that all module ratings equal 3 and delivery identifies them as neutral technical weights. Equal-rating levels use the existing exemption from cross-rating influence checks; all other quiz checks remain required.
+
 Flags combine. `--ratings` requires `--importance` or `--quiz` for expected course/module mapping. `--legacy` allows inspection of older pages lacking `study-config`; it labels unsupported checks as warnings, never reports them as proven. A nonzero exit code means an error. Inspect warnings and fix applicable issues before delivery. The validator uses no network and no npm packages.
 
-Static checks cover Markdown delimiter/table structure, first-section numbering/definition slot, HTML IDs, inline JS parseability, external-resource constructs, embedded JSON contracts, module/rating IDs and ranges, level dependencies, question answers/explanations/sources, count/threshold configuration and the quiz policy below. Engine checks exercise duplicate-free draws, rating influence, answer locking, best-score monotonicity, persistent wrong records/mastery reversal, import rejection/round-trip and reset state. These do not replace a real browser.
+Static checks cover Markdown delimiter/table structure, first-section numbering/definition slot, HTML IDs, inline JS parseability, external-resource constructs, embedded JSON contracts, module/rating IDs and ranges, level dependencies, question answers/explanations/sources, count/threshold configuration and the quiz policy below. Engine checks exercise duplicate-free draws, rating influence, answer locking, best-score monotonicity, persistent wrong records/mastery reversal, import rejection/round-trip and reset state. These do not replace a real browser or source-to-note review.
+
+For Markdown delivery, also perform and report a manual source-to-note review:
+
+- Compare heading order with the PPT/PDF inventory and confirm that usable source headings were retained.
+- Confirm that summary-labeled slides were captured first and used as coverage checks.
+- Scan for dense multi-fact paragraphs and reshape them as hierarchical lists, steps, tables or callouts where clearer.
+- Confirm that the Markdown contains no source filenames, page/slide references, provenance sections or source-tracking comments.
+- Compare every retained claim, example and formula with the source; remove unsupported additions.
+- Confirm that intermediate formula derivations are absent unless the user explicitly requested them, while final formulas and their conditions remain.
 
 Quiz policy checks require one dedicated `kind:"concepts"` level, `drawCount >= 5` and `passRatio:0.8` on every level, and only `single`, `multiple` or `boolean` question types. Exercise exact-set multiple grading with correct, missing and extra selections. Confirm that every `sourceKind:"ppt-example"` question resolves to one structurally complete shared example containing a positive page number, full stem, conditions, formulas and a supported offline figure. The template must visibly contain `多选题 · 全部选对才得分` and expose a cover model whose level status and best score come from the same learning state used by the level cards.
 
@@ -29,4 +40,4 @@ Rating behavior: fresh/unrated state; select ratings; reload; counts match; expo
 
 Quiz behavior: each configured type accepts correct answers and rejects plausible incorrect ones; multiple choice uses exact-set grading; a submit locks all current inputs; repeated submission leaves score unchanged. Complete a high-scoring round then a lower one and reload; best remains high. Verify 80% passes, any lower accuracy fails, and failure does not unlock a dependent level. Confirm the cover illustration and cards display the same unlock state and best score before and after completion, import and reset. Make a mistake twice, mark mastered, answer correctly (record remains), err again (mastery resets). Exercise pending/all wrong list and review round. Reload an incomplete round and verify selected options, locked answers and order. Export/import a valid backup and reject malformed/wrong-course/version/ID/session backups without changing state. Check import confirmation, reset cancel/confirm, and preservation of built-in weights/bank.
 
-Provide actual validation results, not inferred success. If browser QA is unavailable, report exactly which checks remain unverified. Record source omissions and justify low bank/draw ratios separately from program correctness. Course fidelity, useful pedagogy, OCR reliability, semantic duplicate questions and stage confirmations require human/agent review; regex cannot certify them.
+Provide actual validation results, not inferred success. If browser QA is unavailable, report exactly which checks remain unverified. Record source omissions and provenance only in the delivery report or private ledger, never in the Markdown note. Justify low bank/draw ratios separately from program correctness. Course fidelity, source order, summary-slide coverage, useful pedagogy, OCR reliability, semantic duplicate questions and stage confirmations require human/agent review; regex cannot certify them.

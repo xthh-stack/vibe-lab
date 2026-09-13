@@ -1,5 +1,5 @@
 {
-  "skill_name": "study-quest-builder",
+  "skill_name": "building-ppt-study-quests",
   "evals": [
     {
       "id": 1,
@@ -10,7 +10,10 @@
         "Before note confirmation only the note artifact is generated, and the handoff states the required confirmation and next input.",
         "The opening exact three-column definition table includes all source newly defined quantities; the first numbered body section begins 一.",
         "Standalone formulas use paired separate $$ lines, table formulas are inline, and unnecessary vector decoration is removed without changing physical meaning.",
-        "Source formulas, qualifiers and the magnitude-versus-direction distinctions remain intact; no source formula is silently omitted.",
+        "The note follows source chapter/slide order, reuses usable source headings, and presents dense knowledge as clear lists, tables, steps or short sections.",
+        "Final source formulas, qualifiers and magnitude-versus-direction distinctions remain intact, while intermediate derivations are omitted unless explicitly requested.",
+        "The Markdown artifact contains no source filenames, page/slide references, provenance section or source-tracking comments.",
+        "Summary-labeled slides are captured first and used as high-priority structure and coverage checks against the surrounding source.",
         "After the staged continuation, ratings contain at most ten modules with stable IDs and a validated complete JSON export.",
         "After confirmed ratings, quiz generation pauses for the four-part quiz brief and explicit permission; ratings confirmation alone does not authorize an HTML quiz.",
         "After quiz-brief confirmation, the quiz has one new-concepts level, at least five questions per level, an 80% pass line, and only single, multiple, or true/false questions; calculations are converted to objective choices.",
@@ -25,7 +28,8 @@
       "files": ["evals/files/concept-heavy-course.md"],
       "expectations": [
         "The initial turn stops at the note confirmation gate and clearly describes the rating JSON handoff needed later.",
-        "The note preserves theory distinctions and source limitations without inventing factor examples or equations.",
+        "The note follows the course sequence and usable headings, uses readable structured formatting, and preserves theory distinctions without inventing factor examples or equations.",
+        "The note contains no source filenames, page/slide references or provenance section; source limitations are reported separately in the handoff.",
         "The opening contains the exact definition-table contract for genuinely newly defined course terms or the explicit 本课无新增定义量 statement with a reasonable source-based decision.",
         "After confirmation, comprehensive rating modules follow the confirmed concepts and export 1–5 integer scores with stable mappings.",
         "After valid confirmed ratings, the assistant asks about question types, emphasized/reduced/excluded knowledge, special forms, and level constraints, then waits for explicit permission; no preferences still requires 无特殊要求，可以开始.",
@@ -39,7 +43,7 @@
       "expected_output": "A bounded note identifying unreadable/missing content, a request for reliable source supplementation, and the current stage gate. Explain why the available evidence cannot support the requested quantity. On approved partial-source continuation, reduce modules/levels/draws and do not pad the bank with repeated paraphrases.",
       "files": ["evals/files/sparse-unclear-source.md"],
       "expectations": [
-        "Unclear formulas/diagrams and missing conditions are individually identified, with a request for better source material.",
+        "Unclear formulas/diagrams and missing conditions are individually identified in the delivery message, with a request for better source material; they are not recorded as a source appendix in the note.",
         "No unreadable formula, conclusion or diagram meaning is completed from remembered knowledge.",
         "The note has the opening definition decision and Chinese section numbering, and is delivered for confirmation before downstream artifacts.",
         "The request for at least five levels does not lead to invented content or repetitive question padding; the response explains the source limit and proposes reduced scope.",

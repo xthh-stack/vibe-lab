@@ -1,5 +1,7 @@
 # Importance rating contract
 
+Apply this contract only when the user chooses importance annotation after the MD delivery. If they decline, skip this page and export workflow and follow the direct-quiz branch in SKILL.md; its equal internal weights are not completed user ratings.
+
 Use only the confirmed note revision. Consolidate supported material into 1–10 comprehensive modules with stable semantic IDs. Each module has a name and `knowledgePoints` array listing included core concepts, formulas, conditions, pitfalls or applications. Keep these strings plain text; Unicode formulas work offline.
 
 Adapt the template's `<script id="study-config" type="application/json">` block; escape `<` as `\u003c` when embedding JSON. Do not place user/source text in executable JavaScript or raw `innerHTML`. The shipped sample is labeled demonstration data and must be replaced before course delivery.
