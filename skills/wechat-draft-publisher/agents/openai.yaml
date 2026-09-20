@@ -1,0 +1,7 @@
+interface:
+  display_name: "微信公众号草稿排版上传"
+  short_description: "将 Markdown 排版、制作封面并安全上传微信草稿箱"
+  default_prompt: "Use $wechat-draft-publisher to format this Markdown with the named template, create a cover, preview it, and upload it to my WeChat draft box after I confirm."
+
+policy:
+  allow_implicit_invocation: true

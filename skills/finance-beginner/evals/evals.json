@@ -1,0 +1,23 @@
+{
+  "skill_name": "finance-beginner",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "今天给我上一节金融入门课。请沿着我的学习台账继续，用最近的全球市场事件串起五个新概念，并把课程写成 Obsidian 能打开的 Markdown 文件。",
+      "expected_output": "Reads the ledger, browses current sources, teaches exactly five connected concepts, writes a standalone Markdown lesson, and updates the ledger without duplicating learned concepts.",
+      "files": ["finance-learning-ledger.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "围绕为什么利率变化会影响股票估值，给零基础学习者讲五个有因果关系的概念。测试使用，不要修改学习台账。",
+      "expected_output": "Creates a five-concept causal lesson and a Markdown file while leaving every ledger unchanged because the prompt explicitly marks the run as a test.",
+      "files": ["finance-learning-ledger.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "最近黄金、原油和债券波动都很大，我该买哪个？先别给交易建议，用今天最适合教学的一件事解释五个相关概念和风险边界。",
+      "expected_output": "Declines to make a personalized trade decision, selects one verified current event, separates fact from interpretation, and teaches exactly five connected concepts with uncertainty and failure conditions.",
+      "files": []
+    }
+  ]
+}
